@@ -1,0 +1,124 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "dp203AzureDataFactory"
+		},
+		"AzureSqlDatabase_ls_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase_ls'"
+		},
+		"bhanudp203storageacc_LS_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'bhanudp203storageacc_LS'"
+		},
+		"dp203synapseworkspace0307_pooldb_LS_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'dp203synapseworkspace0307_pooldb_LS'"
+		},
+		"pooldb_addadditionalcol_LS_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'pooldb_addadditionalcol_LS'"
+		},
+		"pooldb_copycommand_ls_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'pooldb_copycommand_ls'"
+		},
+		"bhanudp203storageacc_LS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://bhanudp203storageacc.dfs.core.windows.net/"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "dp203AzureDataFactory_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureSqlDatabase_ls_connectionString": {
+						"value": "[parameters('AzureSqlDatabase_ls_connectionString')]"
+					},
+					"bhanudp203storageacc_LS_accountKey": {
+						"value": "[parameters('bhanudp203storageacc_LS_accountKey')]"
+					},
+					"dp203synapseworkspace0307_pooldb_LS_connectionString": {
+						"value": "[parameters('dp203synapseworkspace0307_pooldb_LS_connectionString')]"
+					},
+					"pooldb_addadditionalcol_LS_connectionString": {
+						"value": "[parameters('pooldb_addadditionalcol_LS_connectionString')]"
+					},
+					"pooldb_copycommand_ls_connectionString": {
+						"value": "[parameters('pooldb_copycommand_ls_connectionString')]"
+					},
+					"bhanudp203storageacc_LS_properties_typeProperties_url": {
+						"value": "[parameters('bhanudp203storageacc_LS_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "dp203AzureDataFactory_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'dp203AzureDataFactory_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "dp203AzureDataFactory_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'dp203AzureDataFactory_ArmTemplate_1')]"
+			]
+		}
+	]
+}
