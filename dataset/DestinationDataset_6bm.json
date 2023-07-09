@@ -1,0 +1,62 @@
+{
+	"name": "DestinationDataset_6bm",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dp203synapseworkspace0307_pooldb_LS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "Correlation id",
+				"type": "varchar"
+			},
+			{
+				"name": "Operation name",
+				"type": "varchar"
+			},
+			{
+				"name": "Status",
+				"type": "varchar"
+			},
+			{
+				"name": "Event category",
+				"type": "varchar"
+			},
+			{
+				"name": "Level",
+				"type": "varchar"
+			},
+			{
+				"name": "Time",
+				"type": "varchar"
+			},
+			{
+				"name": "Subscription",
+				"type": "varchar"
+			},
+			{
+				"name": "Event initiated by",
+				"type": "varchar"
+			},
+			{
+				"name": "Resource type",
+				"type": "varchar"
+			},
+			{
+				"name": "Resource group",
+				"type": "varchar"
+			},
+			{
+				"name": "Resource",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "logdata_adf"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

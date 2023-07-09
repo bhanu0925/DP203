@@ -1,0 +1,41 @@
+{
+	"name": "12_mappingDataFlow_Filter",
+	"properties": {
+		"activities": [
+			{
+				"name": "filterNullValues",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "07_dataflow_filter",
+						"type": "DataFlowReference"
+					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "bhanudp203storageacc_LS",
+							"type": "LinkedServiceReference"
+						},
+						"folderPath": "staging"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2023-07-08T16:20:46Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

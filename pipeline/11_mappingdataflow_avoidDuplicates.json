@@ -1,0 +1,42 @@
+{
+	"name": "11_mappingdataflow_avoidDuplicates",
+	"properties": {
+		"activities": [
+			{
+				"name": "avoidDuplicates",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "06_dataflow_dimcustomer_AvoidDuplicates",
+						"type": "DataFlowReference"
+					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "bhanudp203storageacc_LS",
+							"type": "LinkedServiceReference"
+						},
+						"folderPath": "staging"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine",
+					"sourceStagingConcurrency": 1
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2023-07-08T16:07:17Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

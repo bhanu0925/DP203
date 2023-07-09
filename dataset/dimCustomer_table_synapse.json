@@ -1,0 +1,36 @@
+{
+	"name": "dimCustomer_table_synapse",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dp203synapseworkspace0307_pooldb_LS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "CustomerSK",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CustomerId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ComapnyName",
+				"type": "varchar"
+			},
+			{
+				"name": "SalesPerson",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Dimcustomer_surrogate_cache"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,76 @@
+{
+	"name": "09_dataflow_json_array",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "customerJsonStream",
+						"type": "DatasetReference"
+					},
+					"name": "customersourcejson"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "jasontopoolDB",
+						"type": "DatasetReference"
+					},
+					"name": "jsontoSqlPoolDB"
+				}
+			],
+			"transformations": [
+				{
+					"name": "flattenCourse"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          customerid as integer,",
+				"          customername as string,",
+				"          registered as boolean,",
+				"          courses as string[]",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'arrayOfDocuments') ~> customersourcejson",
+				"customersourcejson foldDown(unroll(courses, courses),",
+				"     mapColumn(",
+				"          customerid,",
+				"          customername,",
+				"          registered,",
+				"          courses",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flattenCourse",
+				"flattenCourse sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          CustomerID as integer,",
+				"          customerName as string,",
+				"          Registered as boolean,",
+				"          Courses as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          CustomerID = customerid,",
+				"          customerName = customername,",
+				"          Registered = registered,",
+				"          Courses = courses",
+				"     )) ~> jsontoSqlPoolDB"
+			]
+		}
+	}
+}

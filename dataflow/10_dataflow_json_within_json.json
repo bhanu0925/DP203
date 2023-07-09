@@ -1,0 +1,83 @@
+{
+	"name": "10_dataflow_json_within_json",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "courses_json_in_json",
+						"type": "DatasetReference"
+					},
+					"name": "customersourcejson"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "sqlpoolDB_json_in_json_Coursestbl",
+						"type": "DatasetReference"
+					},
+					"name": "jsontoSqlPoolDB"
+				}
+			],
+			"transformations": [
+				{
+					"name": "flattenCourse"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          customerid as integer,",
+				"          customername as string,",
+				"          registered as boolean,",
+				"          courses as string[],",
+				"          details as (mobile as string, city as string)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'arrayOfDocuments') ~> customersourcejson",
+				"customersourcejson foldDown(unroll(courses, courses),",
+				"     mapColumn(",
+				"          customerid,",
+				"          customername,",
+				"          registered,",
+				"          courses,",
+				"          mobile = details.mobile,",
+				"          city = details.city",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flattenCourse",
+				"flattenCourse sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          CustomerID as integer,",
+				"          customerName as string,",
+				"          Registered as boolean,",
+				"          Courses as string,",
+				"          Mobile as string,",
+				"          city as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          CustomerID = customerid,",
+				"          customerName = customername,",
+				"          Registered = registered,",
+				"          Courses = courses,",
+				"          Mobile = mobile,",
+				"          city",
+				"     )) ~> jsontoSqlPoolDB"
+			]
+		}
+	}
+}

@@ -1,0 +1,43 @@
+{
+	"name": "sqlpoolDB_json_in_json_Coursestbl",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dp203synapseworkspace0307_pooldb_LS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "CustomerID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "customerName",
+				"type": "varchar"
+			},
+			{
+				"name": "Registered",
+				"type": "bit"
+			},
+			{
+				"name": "Courses",
+				"type": "varchar"
+			},
+			{
+				"name": "Mobile",
+				"type": "varchar"
+			},
+			{
+				"name": "city",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Customercource_details"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
